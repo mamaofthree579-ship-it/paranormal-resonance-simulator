@@ -8,7 +8,7 @@ import datetime
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Unified Field Paradigm",
+    page_title="Unified Field Framework",
     page_icon="🔮",
     layout="wide"
 )
@@ -19,16 +19,12 @@ st.markdown("Evaluating the mathematical mechanics of space-time memory imprints
 # --- LIVE METRIC FETCH & MATHEMATICAL LUNAR ENGINE ---
 def get_lunar_gravitational_factor():
     """Calculates an approximate lunar illumination and gravitational tidal factor based on the 2026 timeline"""
-    # Dynamic computation of moon cycles using standard 29.53 day epoch spans
     now = datetime.datetime.now()
     diff = now - datetime.datetime(2026, 1, 1)
     days = diff.days + (diff.seconds / 86400.0)
     cycle_position = (days % 29.53) / 29.53
     
-    # Calculate approximate illumination percentage (0.0 to 1.0)
     illumination = 0.5 * (1 - np.cos(2 * np.pi * cycle_position))
-    
-    # Tidal pull peaks at Full Moon (0.5) and New Moon (0.0 or 1.0) due to syzygy alignments
     gravitational_pull = 1.0 + (0.35 * np.abs(np.sin(np.pi * cycle_position)))
     return round(illumination * 100, 1), round(gravitational_pull, 2)
 
@@ -49,6 +45,7 @@ def get_localized_weather(lat, lon):
 
 @st.cache_data(ttl=3600)
 def get_live_celestial_kp():
+    """Fetches real-time space weather data from the official NOAA SWPC data cluster"""
     noaa_endpoint = "https://noaa.gov"
     try:
         response = requests.get(noaa_endpoint, timeout=5)
@@ -64,6 +61,12 @@ def get_live_celestial_kp():
 lunar_illumi, lunar_grav = get_lunar_gravitational_factor()
 live_kp = get_live_celestial_kp()
 
+# --- INSTANT THRESHOLD ALERT NOTIFIER ---
+if live_kp >= 5.0:
+    st.toast(f"⚠️ DYNAMIC ALARM: NOAA Cosmic Storm Active (Kp: {live_kp}). Baseline thresholds are compromised globally.", icon="⚡")
+elif live_kp >= 4.0:
+    st.toast(f"ℹ️ Notice: Atmospheric Field Ionization Elevating (Kp: {live_kp}). Monitor resonance levels closely.", icon="📡")
+
 # --- SIDEBAR CONTROL PANEL ---
 st.sidebar.header("⏳ Timeline & Space Controls")
 preset = st.sidebar.selectbox(
@@ -78,7 +81,8 @@ elif preset == "2020 1.6 GHz Peak Spike":
 else:
     default_rf, default_gps, default_seismic, default_void = -95, 1.2, 8.0, 1.5
 
-mode = st.sidebar.radio("Spatial Focus Mode", ["Skinwalker Ranch Focal Array", "Universal Coordinate Pivot"])
+# Extended Focal Array Menu options
+mode = st.sidebar.radio("Spatial Focus Mode", ["Skinwalker Ranch Focal Array", "Bermuda Triangle Anomalous Node", "Universal Coordinate Pivot"])
 
 if mode == "Universal Coordinate Pivot":
     st.sidebar.markdown("### 🗺️ Shift Core Grid Coordinates")
@@ -86,10 +90,14 @@ if mode == "Universal Coordinate Pivot":
     user_lon = st.sidebar.number_input("Target Longitude", value=-1.8262, format="%.4f")
     target_name = st.sidebar.text_input("Location Name Label", value="Stonehenge Celestial Shift")
     user_imprint = st.sidebar.slider("Assigned Historical Imprint Weight", 1.0, 10.0, 7.5)
-    tectonic_strain = st.sidebar.slider("Localized Tectonic Strain Multiplier", 1.0, 3.0, 1.1, help="Simulates nearby quartz fault lines releasing piezo-electric voltage under stress.")
+    tectonic_strain = st.sidebar.slider("Localized Tectonic Strain Multiplier", 1.0, 3.0, 1.1)
+elif mode == "Bermuda Triangle Anomalous Node":
+    # Anchor directly to the classic marine mystery coordinates center point
+    user_lat, user_lon, target_name, user_imprint = 25.0000, -71.0000, "Bermuda Triangle Center", 8.8
+    tectonic_strain = 1.2 # Lower tectonic factor, higher reliance on shifting geomagnetic baselines
 else:
     user_lat, user_lon, target_name, user_imprint = 40.2592, -109.8885, "Skinwalker Ranch", 9.5
-    tectonic_strain = 2.4  # High constant value matching the Uintah Basin's geological profile
+    tectonic_strain = 2.4  
 
 local_weather = get_localized_weather(user_lat, user_lon)
 
@@ -102,10 +110,11 @@ radar_void_density = st.sidebar.slider("Stratum Void Density (S-Band)", 1.0, 10.
 # --- NODES & CALCULATIONS ---
 @st.cache_data
 def load_base_nodes(mode_select, lat, lon, name, imprint):
-    if mode_select == "Universal Coordinate Pivot":
+    if mode_select == "Universal Coordinate Pivot" or mode_select == "Bermuda Triangle Anomalous Node":
+        desc = "Tracking marine coordinates with unexplainable compass and navigational variances." if "Bermuda" in name else "Universal template active."
         return pd.DataFrame({
             "Location": [name], "Latitude": [lat], "Longitude": [lon], "Historical_Imprint": [imprint],
-            "Description": ["Universal template coordinates active."]
+            "Description": [desc]
         })
     else:
         return pd.DataFrame({
@@ -123,14 +132,12 @@ for idx, row in df_nodes.iterrows():
     rf_delta = max(0, (rf_signal_16 + 100) * 0.5)
     gps_delta = gps_error_meters * 0.7
     
-    # Structural equations integrated with fault-line multipliers and lunar tidal scales
     subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3) * tectonic_strain
     celestial_catalyst = (live_kp * 0.8) * lunar_grav
     
     total_catalyst = rf_delta + gps_delta + subsurface_catalyst + celestial_catalyst
     total_resonance = row["Historical_Imprint"] * total_catalyst
     
-    # Sigmoid function for field threshold processing
     prob_manifestation = 1 / (1 + np.exp(-0.11 * (total_resonance - 25)))
     
     if prob_manifestation > 0.90:
@@ -155,18 +162,17 @@ with col1:
     st.subheader("📊 Spatial Energy Grid Analytics")
     st.markdown(f"**Active Tracker Matrix:** `{target_name}`")
     
-    # Displaying our advanced cosmic and localized weather metrics
     m1, m2, m3 = st.columns(3)
     m1.metric("Live Solar Kp-Index", f"{live_kp} / 9.0")
     m2.metric("Lunar Illumination", f"{lunar_illumi}%")
     m3.metric("Lunar Tidal Factor", f"{lunar_grav}x")
     
     st.dataframe(df_results[["Location", "Imprint Value", "Resonance Output", "Anomalous Probability", "Field State"]], use_container_width=True)
-    st.success("🔬 **Unified Model Execution:** Celestial lunar ephemeris and fault-line stress variables successfully incorporated into the active system state.")
+    st.success("🔬 **Unified Model Execution Complete.** Active hardware alerts connected.")
 
 with col2:
     st.subheader("🗺️ Unified Tracking Overlay Map")
-    m = folium.Map(location=[user_lat, user_lon], zoom_start=15 if mode == "Universal Coordinate Pivot" else 14, tiles="OpenTopomap")
+    m = folium.Map(location=[user_lat, user_lon], zoom_start=15 if mode == "Skinwalker Ranch Focal Array" else 6 if mode == "Bermuda Triangle Anomalous Node" else 14, tiles="OpenTopomap")
     
     for idx, row in df_results.iterrows():
         marker_color = "red" if "CRITICAL" in row["Field State"] else "orange" if "WARNING" in row["Field State"] else "blue"
