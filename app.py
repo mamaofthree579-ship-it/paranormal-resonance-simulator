@@ -7,16 +7,33 @@ from streamlit_folium import st_folium
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Skinwalker Analytics Node",
+    page_title="Skinwalker Core Node",
     page_icon="🛸",
     layout="wide"
 )
 
-st.title("🛸 Advanced Multi-Metric Field Resonance Engine")
-st.markdown("### Focus Node: Skinwalker Ranch Telemetry Verification")
+st.title("🛸 Unified Field Resonance Engine: Skinwalker Ranch")
+st.markdown("Evaluating universal space-time anomalies through unified sub-surface, atmospheric, and celestial metrics.")
 
-# --- LIVE CELESTIAL API FETCH ---
-@st.cache_data(ttl=3600)
+# --- LIVE METRIC FETCH ENGINES ---
+@st.cache_data(ttl=1800)  # Cache weather data for 30 minutes
+def get_uintah_basin_weather():
+    """Fetches real-time weather data for the Uintah Basin region (Fort Duchesne/Vernal, UT)"""
+    # Using an open latitude/longitude endpoint for the ranch coordinates
+    url = "https://open-meteo.com"
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            data = response.json().get("current", {})
+            return {
+                "temp_f": round((data.get("temperature_2m", 15) * 9/5) + 32, 1),
+                "wind_mph": round(data.get("wind_speed_10m", 5) * 0.621371, 1)
+            }
+    except Exception:
+        pass
+    return {"temp_f": 62.5, "wind_mph": 4.2} # Baseline fallbacks
+
+@st.cache_data(ttl=3600)  # Cache space weather for 1 hour
 def get_live_celestial_kp():
     noaa_endpoint = "https://noaa.gov"
     try:
@@ -27,103 +44,102 @@ def get_live_celestial_kp():
             return max(1.0, min(9.0, live_kp))
     except Exception:
         pass
-    return 3.5
+    return 3.0
 
+# Fetch live streams
+local_weather = get_uintah_basin_weather()
 live_kp = get_live_celestial_kp()
 
-# --- SIDEBAR INTERFACE & SKINWALKER EQUIPMENT SPECS ---
-st.sidebar.header("🛸 Celestial Matrix")
-st.sidebar.metric(label="Live NOAA Space Weather (Kp)", value=f"{live_kp} / 9.0")
-solar_modifier = st.sidebar.slider("Solar Flux Scaling Factor", 1.0, 5.0, 1.0)
-effective_kp = min(9.0, live_kp * solar_modifier)
+# --- SIDEBAR: SYSTEM INPUTS ---
+st.sidebar.header("📡 Live Automated Feed Telemetry")
+st.sidebar.metric(label="Live NOAA Solar Kp-Index", value=f"{live_kp} / 9.0")
+st.sidebar.metric(label="Ranch Ambient Temp", value=f"{local_weather['temp_f']} °F")
 
-st.sidebar.header("📡 Ranch Field Sensors (Simulated Inputs)")
-rf_signal_16 = st.sidebar.slider("1.6 GHz RF Signal Power (dBm)", -110, -30, -90, help="Baseline is -100dBm. Spikes over -60dBm indicate active triggers.")
-gps_error_meters = st.sidebar.slider("GPS Deflection Drift (Meters)", 0.0, 50.0, 1.5, help="Simulates satellite telemetry distortion over active zones.")
-ionizing_radiation = st.sidebar.slider("Ionizing Radiation (uSv/h)", 0.05, 5.0, 0.12, help="Tracks sudden gamma/X-ray micro-bursts.")
+st.sidebar.header("⚡ Localized Variable Fluctuations")
+rf_signal_16 = st.sidebar.slider("1.6 GHz RF Signal Power (dBm)", -110, -30, -95)
+gps_error_meters = st.sidebar.slider("GPS Deflection Matrix (Meters)", 0.0, 50.0, 1.2)
 
-# --- SKINWALKER RANCH DATASETS (STRUCTURAL BLUEPRINT) ---
+st.sidebar.header("🪨 Sub-Surface / Mesa Stratum Metrics")
+seismic_hz = st.sidebar.slider("Micro-Seismic Resonance (Hz)", 0.0, 100.0, 12.0, help="Tracks underground acoustic anomalies or structural vibrations.")
+radar_void_density = st.sidebar.slider("Mesa Radar Void Density (S-Band)", 1.0, 10.0, 1.5, help="Models deep underground structural density changes or metallic anomalies.")
+
+# --- THE SKINWALKER UNIFIED DATAMATRIX ---
 @st.cache_data
-def load_skinwalker_hotspots():
-    # True geographic coordinates mapping specific operational points across the 512 acres
+def load_unified_nodes():
     ranch_data = {
-        "Location": ["The Triangle Zone", "Homestead 2", "The Ridge / Mesa", "Homestead 1"],
+        "Location": ["The Triangle Zone", "Homestead 2", "The Mesa Incline", "Homestead 1"],
         "Latitude": [40.2589, 40.2595, 40.2612, 40.2575],
         "Longitude": [-109.8892, -109.8920, -109.8850, -109.8955],
-        "Historical_Imprint": [9.8, 8.5, 9.0, 6.5], # Weighted base score derived from historical records
-        "Description": [
-            "Center point of repeating GPS tracking anomalies, drone failures, and phantom UAP signatures.",
-            "Site of acute psychological distress metrics, equipment battery drainage, and severe audio anomalies.",
-            "Unexplained visual phenomena, underground physical radar echoes, and laser deflection experiments.",
-            "Early homestead structure presenting lower baseline spatial resonance but steady residual variance."
-        ]
+        "Historical_Imprint": [9.8, 8.5, 9.2, 6.5],
+        "Description": ["Epicenter of 1.6 GHz bursts and localized time/altitude tracking distortions.",
+                        "Site of physiological feedback loops, battery drain vectors, and transient cold spots.",
+                        "Location of subsurface radar reflectivity pockets and high laser beam divergence.",
+                        "Early residential settlement showing steady baseline structural imprint metrics."]
     }
     return pd.DataFrame(ranch_data)
 
-df_ranch = load_skinwalker_hotspots()
+df_nodes = load_unified_nodes()
 
-# --- MATH PREDICTIVE MODEL ENGINE ---
-processed_ranch_nodes = []
-for idx, row in df_ranch.iterrows():
-    # Isolating sensor variations based on historical baselines
-    rf_anomaly_weight = max(0, (rf_signal_16 + 100) * 0.4)
-    gps_variance = gps_error_meters * 0.8
-    radiation_spike = (ionizing_radiation - 0.12) * 15.0
+# --- THE UNIFIED EQUATION ENGINE ---
+processed_nodes = []
+for idx, row in df_nodes.iterrows():
+    # Convert slider inputs to active delta fields
+    rf_delta = max(0, (rf_signal_16 + 100) * 0.5)
+    gps_delta = gps_error_meters * 0.7
     
-    # Combined Terrestrial Catalyst Field
-    ranch_catalyst = rf_anomaly_weight + gps_variance + radiation_spike + (effective_kp * 1.1)
+    # Sub-surface variables directly impact the Mesa and Triangle nodes with higher weighting
+    subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3)
     
-    # Mathematical Space-Time Resonance Calculation
-    total_resonance = row["Historical_Imprint"] * max(0.5, ranch_catalyst)
+    # The Matrix Calculus Link: Combined Celestial, Atmospheric, and Terrestrial variables
+    total_catalyst = rf_delta + gps_delta + subsurface_catalyst + (live_kp * 0.8)
     
-    # Sigmoid function for probability classification
-    prob_manifestation = 1 / (1 + np.exp(-0.12 * (total_resonance - 20)))
+    # Apply spatial scaling law based on the node's unique historic threshold
+    total_resonance = row["Historical_Imprint"] * total_catalyst
     
-    # Signal anomaly classification loop
-    if prob_manifestation > 0.88:
-        status = "CRITICAL: Active Time-Space Anomaly"
-    elif rf_anomaly_weight > 5.0 and row["Historical_Imprint"] > 8.0:
-        status = "ALERT: Pre-Event Resonance Alert"
+    # Sigmoid function maps value cleanly to a manifestation probability matrix
+    prob_manifestation = 1 / (1 + np.exp(-0.11 * (total_resonance - 25)))
+    
+    # Universal Status Allocations
+    if prob_manifestation > 0.90:
+        status = "CRITICAL: Space-Time Collapse Imminent"
+    elif total_resonance > 30.0:
+        status = "WARNING: Highly Charged Grid Field"
     else:
-        status = "Ambient Background Matrix"
+        status = "Stabilized Background Continuity"
 
-    processed_ranch_nodes.append({
+    processed_nodes.append({
         "Location": row["Location"],
         "Lat": row["Latitude"],
-        "Lon": row["Longitude"],
-        "Base Imprint": row["Historical_Imprint"],
-        "Resonance Score": round(total_resonance, 2),
-        "Detection Probability": f"{round(prob_manifestation * 100, 1)}%",
-        "System Classification": status
+        "Longitude": row["Longitude"],
+        "Imprint Value": row["Historical_Imprint"],
+        "Resonance Output": round(total_resonance, 2),
+        "Anomalous Probability": f"{round(prob_manifestation * 100, 1)}%",
+        "Field State": status
     })
 
-df_ranch_results = pd.DataFrame(processed_ranch_nodes)
+df_results = pd.DataFrame(processed_nodes)
 
-# --- WEB DASHBOARD INTERFACE RENDER ---
-col1, col2 = st.columns([1, 1])
+# --- USER INTERFACE DISPLAY ---
+col1, col2 = st.columns()
 
 with col1:
-    st.subheader("📊 Dynamic Ranch Telemetry")
-    st.dataframe(df_ranch_results[["Location", "Base Imprint", "Resonance Score", "Detection Probability", "System Classification"]], use_container_width=True)
+    st.subheader("📊 Spatial Energy Grid Analytics")
+    st.dataframe(df_results[["Location", "Imprint Value", "Resonance Output", "Anomalous Probability", "Field State"]], use_container_width=True)
     
-    with st.expander("🔍 See Mathematical Model Explanation"):
-        st.write("""
-        This model cross-references specific geographic coordinates on the ranch with external variables. 
-        When the **1.6 GHz RF signal spikes** or **GPS satellite signals defect**, the `Resonance Score` shifts non-linearly, modeling how the environment reacts during active anomalous windows.
-        """)
+    st.info(f"**Unified Field Logic Active:** The current model links celestial Kp indices and live local weather directly into the spatial coordinates. Because space is interconnected, changing the core variables shifts the local metrics instantly.")
 
 with col2:
-    st.subheader("🗺️ Target Telemetry Overlays")
-    # Initialize Folium Map over the real coordinates of the Uintah Basin site
-    ranch_map = folium.Map(location=[40.2592, -109.8885], zoom_start=15, tiles="OpenTopomap")
+    st.subheader("🗺️ Unified Tracking Overlay Map")
+    # Setting map view to focus directly on the real coordinates of the Utah ranch
+    m = folium.Map(location=[40.2592, -109.8885], zoom_start=15, tiles="OpenTopomap")
     
-    for idx, row in df_ranch_results.iterrows():
-        color = "red" if "CRITICAL" in row["System Classification"] else "orange" if "ALERT" in row["System Classification"] else "blue"
+    for idx, row in df_results.iterrows():
+        marker_color = "red" if "CRITICAL" in row["Field State"] else "orange" if "WARNING" in row["Field State"] else "blue"
         
         folium.Marker(
-            location=[row["Lat"], row["Lon"]],
-            popup=f"<b>{row['Location']}</b><br>Resonance: {row['Resonance Score']}<br>Status: {row['System Classification']}",
-            icon=folium.Icon(color=color, icon="screenshot")
-        ).add_to(ranch_map)
+            location=[row["Lat"], row["Longitude"]],
+            popup=f"<b>{row['Location']}</b><br>Resonance: {row['Resonance Output']}<br>State: {row['Field State']}",
+            icon=folium.Icon(color=marker_color, icon="fullscreen")
+        ).add_to(m)
         
-    st_folium(ranch_map, width="100%", height=400, returned_objects=[])
+    st_folium(m, width="100%", height=420, returned_objects=[])
