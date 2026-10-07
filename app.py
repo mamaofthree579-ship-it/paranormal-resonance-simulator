@@ -133,7 +133,8 @@ for idx, row in df_nodes.iterrows():
 
             processed_nodes.append({
         "Location": row["Location"], "Lat": row["Lat"], "Lon": row["Lon"],
-        "Resonance Output": round(total_resonance, 2), "Quantum Probability": f"{round(prob_manifestation * 100, 1)}%", "State": current_state_label
+               "Resonance Output": round(total_resonance, 2), "Quantum Probability": f"{round(prob_manifestation * 100, 1)}%", "State": current_state_label
+
     })
 
 
