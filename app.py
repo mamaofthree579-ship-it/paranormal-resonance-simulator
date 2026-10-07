@@ -120,7 +120,7 @@ for idx, row in df_nodes.iterrows():
 df_results = pd.DataFrame(processed_nodes)
 
 # --- USER INTERFACE DISPLAY ---
-col1, col2 = st.columns()
+col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("📊 Spatial Energy Grid Analytics")
