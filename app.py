@@ -131,12 +131,11 @@ for idx, row in df_nodes.iterrows():
         else:
             current_state_label = "EQUILIBRIUM: Stabilized Space-Time Frequency"
 
-        processed_nodes.append({
-        "Location": row["Location"], "Lat": row["Latitude"], "Lon": row["Longitude"],
+            processed_nodes.append({
+        "Location": row["Location"], "Lat": row["Lat"], "Lon": row["Lon"],
         "Resonance Output": round(total_resonance, 2), "Quantum Probability": f"{round(prob_manifestation * 100, 1)}%", "State": current_state_label
     })
 
-    })
 
 df_results = pd.DataFrame(processed_nodes)
 
