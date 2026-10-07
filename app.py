@@ -8,13 +8,13 @@ import datetime
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Unified Field Verification",
+    page_title="Quantum Bio-Resonance Grid",
     page_icon="🔮",
     layout="wide"
 )
 
-st.title("🔮 Project Unified Field: Experimental Verification Engine")
-st.markdown("Validating space-time field distortions through active kinetic and RF excitation vectors.")
+st.title("🔮 Project Unified Field: Quantum Bio-Resonance Engine")
+st.markdown("Mapping the geometric compression source code through the intersection of human biological frequencies and celestial matrices.")
 
 # --- LIVE METRIC FETCH ENGINES ---
 def get_lunar_gravitational_factor():
@@ -61,31 +61,32 @@ live_kp = get_live_celestial_kp()
 st.sidebar.header("⏳ Spatial Focus Mode")
 mode = st.sidebar.radio("Select Target Array", ["Skinwalker Ranch Focal Array", "Bermuda Triangle Anomalous Node", "Universal Coordinate Pivot"])
 
-# --- NEW: ACTIVE FIELD EXPERIMENT DROP-DOWN ---
-st.sidebar.header("🚀 Active Physical Experiments")
-active_experiment = st.sidebar.selectbox(
-    "Select Ranch Deployment Protocol",
-    ["Passive Monitoring Only", "100-Drone Swarm Mapping", "Thermal Ionization Rocket Launch", "1,000-Drone Cluster Stress Test"]
+# --- NEW: TRIPLE QUANTUM WAVE FUNCTION INTERFACE ---
+st.sidebar.header("🧠 Human Biological Frequency Key")
+psi_brain = st.sidebar.slider("Cranial Brain Frequency (Hz)", 0.5, 40.0, 12.0, help="Alpha/Beta neurological wave function proxy.")
+psi_heart = st.sidebar.slider("Cardiac Heart Field (Hz)", 1.0, 10.0, 4.0, help="Heart rate variability magnetic oscillation proxy.")
+psi_gut = st.sidebar.slider("Enteric Gut Oscillation (Hz)", 0.05, 0.5, 0.1, help="Gastrointestinal intrinsic slow-wave proxy.")
+
+st.sidebar.header("❤️ Emotional Coherence Vectors")
+emotional_state = st.sidebar.selectbox(
+    "Active Emotional Frequency State",
+    ["Baseline Awareness", "Fear / Contraction / Distortion", "Authenticity / Alignment", "Unconditional Love (Maximum Amplitude)"]
 )
 
-# Initialize dynamic experiment modifiers
-kinetic_shear_multiplier = 1.0
-rf_saturation_factor = 0.0
-ionization_vector = 0.0
+# Define Emotional Amplification Factors (Constructive vs Destructive Interference)
+if emotional_state == "Fear / Contraction / Distortion":
+    coherence_multiplier = 0.35  # Destructive interference collapses the field power
+    st.sidebar.caption("❌ *Incoherent Field: High fear output creates wave collision, dampening biological resonance.*")
+elif emotional_state == "Authenticity / Alignment":
+    coherence_multiplier = 2.0   # Constructive coherence multiplies alignment
+    st.sidebar.caption("✨ *Harmonic Phase Coherence: Authenticity matches the structural source code variables.*")
+elif emotional_state == "Unconditional Love (Maximum Amplitude)":
+    coherence_multiplier = 4.5   # Peak amplification
+    st.sidebar.caption("🔥 *Unconditional Love Mode: Exponential scalar expansion unlocks dense compression parameters.*")
+else:
+    coherence_multiplier = 1.0   # Neutral baseline
 
-if active_experiment == "100-Drone Swarm Mapping":
-    rf_saturation_factor = 25.0
-    st.sidebar.caption("💡 *Model Insight: Mid-level L-Band frequency noise floor saturation detected.*")
-elif active_experiment == "Thermal Ionization Rocket Launch":
-    ionization_vector = 45.0
-    kinetic_shear_multiplier = 2.5
-    st.sidebar.caption("💡 *Model Insight: Active vertical plasma corridor grounding subsurface piezo-electric strain.*")
-elif active_experiment == "1,000-Drone Cluster Stress Test":
-    rf_saturation_factor = 65.0
-    ionization_vector = 15.0
-    st.sidebar.caption("💡 *Model Insight: Critical GNSS request density. High probability of spatial coordinate refraction (spoofing).*")
-
-# Load baseline profiles based on location selection
+# Geographic Parameter Setting
 if mode == "Universal Coordinate Pivot":
     st.sidebar.markdown("### 🗺️ Custom Coordinates Shift")
     user_lat = st.sidebar.number_input("Target Latitude", value=51.1789, format="%.4f")
@@ -127,29 +128,33 @@ def load_base_nodes(mode_select, lat, lon, name, imprint):
 
 df_nodes = load_base_nodes(mode, user_lat, user_lon, target_name, user_imprint)
 
+# Math Engine: Compute the Intersecting Biological Frequency Key
+# The interaction of Gut, Heart, and Brain wave functions multiplied by Coherence
+bio_frequency_key = ((psi_brain * 0.4) + (psi_heart * 1.5) + (psi_gut * 10.0)) * coherence_multiplier
+
 processed_nodes = []
 for idx, row in df_nodes.iterrows():
-    # Integrate passive sliders with active experimental excitation vectors
-    rf_delta = max(0, (rf_signal_16 + 100) * 0.5) + rf_saturation_factor
-    gps_delta = (gps_error_meters * 0.7) * kinetic_shear_multiplier
-    
+    rf_delta = max(0, (rf_signal_16 + 100) * 0.5)
+    gps_delta = gps_error_meters * 0.7
     subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3) * tectonic_strain
     celestial_catalyst = (live_kp * 0.8) * lunar_grav
     
-    # Combined Catalyst Equation compounding active ionization vectors
-    total_catalyst = rf_delta + gps_delta + subsurface_catalyst + celestial_catalyst + ionization_vector
-    total_resonance = row["Historical_Imprint"] * total_catalyst
+    # Base environmental landscape
+    total_catalyst = rf_delta + gps_delta + subsurface_catalyst + celestial_catalyst
+    
+    # THE RECONFIGURED EQUATION: The Bio-Frequency Key unlocks the structural storage matrix
+    total_resonance = row["Historical_Imprint"] * total_catalyst * (bio_frequency_key * 0.05)
     
     # Sigmoid function for field threshold processing
     prob_manifestation = 1 / (1 + np.exp(-0.11 * (total_resonance - 25)))
     
-    # Determine alert triggers based on bubble boundaries
+    # RECONFIGURED HARMONIC STATE ALLOCATIONS
     if prob_manifestation > 0.90:
-        status = "CRITICAL: Space-Time Core Disruption"
+        status = "QUANTUM SYNERGY: Core Bio-Resonance Active"
     elif total_resonance > 30.0:
-        status = "WARNING: Highly Charged Grid Field"
+        status = "HARMONIC SHIFT: High-Frequency Energy Alignment"
     else:
-        status = "Stabilized Background Continuity"
+        status = "EQUILIBRIUM: Stabilized Baseline Frequency"
 
     processed_nodes.append({
         "Location": row["Location"], "Lat": row["Latitude"], "Longitude": row["Longitude"],
@@ -164,7 +169,8 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("📊 Spatial Energy Grid Analytics")
-    st.markdown(f"**Active Tracker Matrix:** `{target_name}` | **Deployment Protocol:** `{active_experiment}`")
+    st.markdown(f"**Active Tracker Matrix:** `{target_name}`")
+    st.markdown(f"**Calculated Biological Frequency Key ($\Psi$):** `{round(bio_frequency_key, 2)}`")
     
     m1, m2, m3 = st.columns(3)
     m1.metric("Live Solar Kp-Index", f"{live_kp} / 9.0")
@@ -172,34 +178,31 @@ with col1:
     m3.metric("Lunar Tidal Factor", f"{lunar_grav}x")
     
     st.dataframe(df_results[["Location", "Imprint Value", "Resonance Output", "Anomalous Probability", "Field State"]], use_container_width=True)
-    
-    # NEW: VERIFICATION LOG DATA REPORT
-    st.info(f"🔮 **Verification Insights:** When `{active_experiment}` is triggered on coordinates with an Imprint value above 9.0, the non-linear math maps an exponential surge. This mimics the real-world tool failures and UAP flashes witnessed during live deployments.")
+    st.success("🔬 **Bio-Quantum Integration Active:** The human observer is no longer modeled as separate from the environment. Geometric compression fields are actively responding to emotional phase coherence parameters.")
 
 with col2:
-    st.subheader("🗺️ Unified Tracking Overlay Map (750ft Bubble Boundary Active)")
+    st.subheader("🗺️ Unified Tracking Overlay Map")
     m = folium.Map(location=[user_lat, user_lon], zoom_start=15 if mode == "Skinwalker Ranch Focal Array" else 6, tiles="OpenTopomap")
     
     for idx, row in df_results.iterrows():
-        marker_color = "red" if "CRITICAL" in row["Field State"] else "orange" if "WARNING" in row["Field State"] else "blue"
+        marker_color = "red" if "QUANTUM" in row["Field State"] else "orange" if "HARMONIC" in row["Field State"] else "blue"
         
-        # Construct marker layout
         folium.Marker(
             location=[row["Lat"], row["Longitude"]],
             popup=f"<b>{row['Location']}</b><br>Resonance: {row['Resonance Output']}<br>State: {row['Field State']}",
             icon=folium.Icon(color=marker_color, icon="fullscreen")
         ).add_to(m)
         
-        # NEW: BOUNDARY VISUALIZATION LAYER
-        # Render a translucent 3D vertical bubble boundary radius around active anomalies
         if mode == "Skinwalker Ranch Focal Array" and row["Location"] in ["The Triangle Zone", "The Mesa Incline"]:
             folium.Circle(
                 location=[row["Lat"], row["Longitude"]],
-                radius=150, # 150-meter lateral radius mapping the core anomaly perimeter
+                radius=150,
                 color="crimson" if marker_color == "red" else "amber",
                 fill=True,
                 fill_opacity=0.15,
-                popup="Critical 750ft Vertical Bubble Perimeter"
+                popup="Active Bio-Resonating Perimeter"
             ).add_to(m)
+        
+
         
     st_folium(m, width="100%", height=420, returned_objects=[])
