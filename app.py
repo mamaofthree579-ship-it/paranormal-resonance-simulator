@@ -8,13 +8,13 @@ import datetime
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Quantum Bio-Resonance Grid",
+    page_title="Quantum Entanglement Grid",
     page_icon="🔮",
     layout="wide"
 )
 
-st.title("🔮 Project Unified Field: Quantum Bio-Resonance Engine")
-st.markdown("Mapping the geometric compression source code through the intersection of human biological frequencies and celestial matrices.")
+st.title("🔮 Project Unified Field: Quantum Entanglement & Resonance Engine")
+st.markdown("Plottable space, time, and frequency coordinates unified through shared cosmic particle origins.")
 
 # --- LIVE METRIC FETCH ENGINES ---
 def get_lunar_gravitational_factor():
@@ -61,11 +61,11 @@ live_kp = get_live_celestial_kp()
 st.sidebar.header("⏳ Spatial Focus Mode")
 mode = st.sidebar.radio("Select Target Array", ["Skinwalker Ranch Focal Array", "Bermuda Triangle Anomalous Node", "Universal Coordinate Pivot"])
 
-# --- NEW: TRIPLE QUANTUM WAVE FUNCTION INTERFACE ---
+# --- TRIPLE QUANTUM WAVE FUNCTION INTERFACE ---
 st.sidebar.header("🧠 Human Biological Frequency Key")
-psi_brain = st.sidebar.slider("Cranial Brain Frequency (Hz)", 0.5, 40.0, 12.0, help="Alpha/Beta neurological wave function proxy.")
-psi_heart = st.sidebar.slider("Cardiac Heart Field (Hz)", 1.0, 10.0, 4.0, help="Heart rate variability magnetic oscillation proxy.")
-psi_gut = st.sidebar.slider("Enteric Gut Oscillation (Hz)", 0.05, 0.5, 0.1, help="Gastrointestinal intrinsic slow-wave proxy.")
+psi_brain = st.sidebar.slider("Cranial Brain Frequency (Hz)", 0.5, 40.0, 12.0)
+psi_heart = st.sidebar.slider("Cardiac Heart Field (Hz)", 1.0, 10.0, 4.0)
+psi_gut = st.sidebar.slider("Enteric Gut Oscillation (Hz)", 0.05, 0.5, 0.1)
 
 st.sidebar.header("❤️ Emotional Coherence Vectors")
 emotional_state = st.sidebar.selectbox(
@@ -73,18 +73,29 @@ emotional_state = st.sidebar.selectbox(
     ["Baseline Awareness", "Fear / Contraction / Distortion", "Authenticity / Alignment", "Unconditional Love (Maximum Amplitude)"]
 )
 
-# Define Emotional Amplification Factors (Constructive vs Destructive Interference)
 if emotional_state == "Fear / Contraction / Distortion":
-    coherence_multiplier = 0.35  # Destructive interference collapses the field power
-    st.sidebar.caption("❌ *Incoherent Field: High fear output creates wave collision, dampening biological resonance.*")
+    coherence_multiplier = 0.35
 elif emotional_state == "Authenticity / Alignment":
-    coherence_multiplier = 2.0   # Constructive coherence multiplies alignment
-    st.sidebar.caption("✨ *Harmonic Phase Coherence: Authenticity matches the structural source code variables.*")
+    coherence_multiplier = 2.0
 elif emotional_state == "Unconditional Love (Maximum Amplitude)":
-    coherence_multiplier = 4.5   # Peak amplification
-    st.sidebar.caption("🔥 *Unconditional Love Mode: Exponential scalar expansion unlocks dense compression parameters.*")
+    coherence_multiplier = 4.5
 else:
-    coherence_multiplier = 1.0   # Neutral baseline
+    coherence_multiplier = 1.0
+
+# --- NEW: SOLFEGGIO HARMONIC SCALE TUNING ---
+st.sidebar.header("🎵 Solfeggio Harmonic Tuning Scale")
+solfeggio_scale = st.sidebar.selectbox(
+    "Select Ambient Tuning Scale",
+    ["Baseline Frequency (432 Hz - Cosmic Balance)", "Transformation Frequency (528 Hz - Core Matrix Repair)", "Awakening Intuition (741 Hz - Consciousness Shift)"]
+)
+
+if "528" in solfeggio_scale:
+    harmonic_amplifier = 1.618  # Golden Ratio resonance modifier
+    st.sidebar.caption("🎵 *528 Hz Active: Enhancing geometric source code compression pathways.*")
+elif "741" in solfeggio_scale:
+    harmonic_amplifier = 1.414  # Root 2 structural expansion modifier
+else:
+    harmonic_amplifier = 1.0    # Harmonic baseline stability
 
 # Geographic Parameter Setting
 if mode == "Universal Coordinate Pivot":
@@ -128,8 +139,7 @@ def load_base_nodes(mode_select, lat, lon, name, imprint):
 
 df_nodes = load_base_nodes(mode, user_lat, user_lon, target_name, user_imprint)
 
-# Math Engine: Compute the Intersecting Biological Frequency Key
-# The interaction of Gut, Heart, and Brain wave functions multiplied by Coherence
+# Compute the Intersecting Biological Frequency Key
 bio_frequency_key = ((psi_brain * 0.4) + (psi_heart * 1.5) + (psi_gut * 10.0)) * coherence_multiplier
 
 processed_nodes = []
@@ -139,16 +149,13 @@ for idx, row in df_nodes.iterrows():
     subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3) * tectonic_strain
     celestial_catalyst = (live_kp * 0.8) * lunar_grav
     
-    # Base environmental landscape
     total_catalyst = rf_delta + gps_delta + subsurface_catalyst + celestial_catalyst
     
-    # THE RECONFIGURED EQUATION: The Bio-Frequency Key unlocks the structural storage matrix
-    total_resonance = row["Historical_Imprint"] * total_catalyst * (bio_frequency_key * 0.05)
+    # NEW QUANTUM FIELD LINKS: Incorporating Harmonic Tuning Scales and Shared Particle Origin Weights
+    total_resonance = row["Historical_Imprint"] * total_catalyst * (bio_frequency_key * 0.05) * harmonic_amplifier
     
-    # Sigmoid function for field threshold processing
     prob_manifestation = 1 / (1 + np.exp(-0.11 * (total_resonance - 25)))
     
-    # RECONFIGURED HARMONIC STATE ALLOCATIONS
     if prob_manifestation > 0.90:
         status = "QUANTUM SYNERGY: Core Bio-Resonance Active"
     elif total_resonance > 30.0:
@@ -170,7 +177,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.subheader("📊 Spatial Energy Grid Analytics")
     st.markdown(f"**Active Tracker Matrix:** `{target_name}`")
-    st.markdown(f"**Calculated Biological Frequency Key ($\Psi$):** `{round(bio_frequency_key, 2)}`")
+    st.markdown(f"**Calculated Biological Frequency Key (\(\Psi\)):** `{round(bio_frequency_key, 2)}`")
     
     m1, m2, m3 = st.columns(3)
     m1.metric("Live Solar Kp-Index", f"{live_kp} / 9.0")
@@ -178,7 +185,7 @@ with col1:
     m3.metric("Lunar Tidal Factor", f"{lunar_grav}x")
     
     st.dataframe(df_results[["Location", "Imprint Value", "Resonance Output", "Anomalous Probability", "Field State"]], use_container_width=True)
-    st.success("🔬 **Bio-Quantum Integration Active:** The human observer is no longer modeled as separate from the environment. Geometric compression fields are actively responding to emotional phase coherence parameters.")
+    st.success("🔬 **Initial Particle Entanglement Enabled:** Systems are plotting geographic space and individual frequency vectors uniformly, demonstrating shared quantum origins across all physical coordinates.")
 
 with col2:
     st.subheader("🗺️ Unified Tracking Overlay Map")
@@ -202,7 +209,5 @@ with col2:
                 fill_opacity=0.15,
                 popup="Active Bio-Resonating Perimeter"
             ).add_to(m)
-        
-
         
     st_folium(m, width="100%", height=420, returned_objects=[])
