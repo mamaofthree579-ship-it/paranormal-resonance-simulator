@@ -4,21 +4,36 @@ import numpy as np
 import requests
 import folium
 from streamlit_folium import st_folium
+import datetime
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Unified Field Node",
+    page_title="Unified Field Paradigm",
     page_icon="🔮",
     layout="wide"
 )
 
-st.title("🔮 Unified Field Resonance Engine & Grid Tracker")
-st.markdown("Testing the universal laws of space-time anomalies across localized terrestrial and celestial fields.")
+st.title("🔮 Project Unified Field: Resonance & Core Tracker")
+st.markdown("Evaluating the mathematical mechanics of space-time memory imprints, cosmic cycles, and tectonic metrics.")
 
-# --- LIVE METRIC FETCH ENGINES ---
+# --- LIVE METRIC FETCH & MATHEMATICAL LUNAR ENGINE ---
+def get_lunar_gravitational_factor():
+    """Calculates an approximate lunar illumination and gravitational tidal factor based on the 2026 timeline"""
+    # Dynamic computation of moon cycles using standard 29.53 day epoch spans
+    now = datetime.datetime.now()
+    diff = now - datetime.datetime(2026, 1, 1)
+    days = diff.days + (diff.seconds / 86400.0)
+    cycle_position = (days % 29.53) / 29.53
+    
+    # Calculate approximate illumination percentage (0.0 to 1.0)
+    illumination = 0.5 * (1 - np.cos(2 * np.pi * cycle_position))
+    
+    # Tidal pull peaks at Full Moon (0.5) and New Moon (0.0 or 1.0) due to syzygy alignments
+    gravitational_pull = 1.0 + (0.35 * np.abs(np.sin(np.pi * cycle_position)))
+    return round(illumination * 100, 1), round(gravitational_pull, 2)
+
 @st.cache_data(ttl=1800)
 def get_localized_weather(lat, lon):
-    """Fetches real-time weather metrics dynamically for any coordinates on Earth"""
     url = f"https://open-meteo.com{lat}&longitude={lon}&current=temperature_2m,wind_speed_10m"
     try:
         response = requests.get(url, timeout=5)
@@ -45,39 +60,37 @@ def get_live_celestial_kp():
         pass
     return 3.0
 
+# Calculate Live Automated Feeds
+lunar_illumi, lunar_grav = get_lunar_gravitational_factor()
 live_kp = get_live_celestial_kp()
 
-# --- SIDEBAR: TIMELINE PRESETS & CONFIGURATION ---
+# --- SIDEBAR CONTROL PANEL ---
 st.sidebar.header("⏳ Timeline & Space Controls")
-
-# Historical Presets Matrix
 preset = st.sidebar.selectbox(
     "Select Field Baseline Profile",
     ["Live Data Stream", "1996 NIDS Investigation Baseline", "2020 1.6 GHz Peak Spike", "Custom Parameter Tweak"]
 )
 
-# Set defaults based on selection
 if preset == "1996 NIDS Investigation Baseline":
     default_rf, default_gps, default_seismic, default_void = -105, 5.0, 45.0, 1.2
 elif preset == "2020 1.6 GHz Peak Spike":
     default_rf, default_gps, default_seismic, default_void = -42, 38.5, 12.0, 4.5
-else: # Live Data / Custom Defaults
+else:
     default_rf, default_gps, default_seismic, default_void = -95, 1.2, 8.0, 1.5
 
-# --- UNIVERSAL LOCATION PIVOT ---
 mode = st.sidebar.radio("Spatial Focus Mode", ["Skinwalker Ranch Focal Array", "Universal Coordinate Pivot"])
 
 if mode == "Universal Coordinate Pivot":
     st.sidebar.markdown("### 🗺️ Shift Core Grid Coordinates")
-    user_lat = st.sidebar.number_input("Target Latitude", value=51.1789, format="%.4f", help="Example: 51.1789 for Stonehenge")
-    user_lon = st.sidebar.number_input("Target Longitude", value=-1.8262, format="%.4f", help="Example: -1.8262 for Stonehenge")
-    target_name = st.sidebar.text_input("Location Name Label", value="Stonehenge Anomalous Shift")
+    user_lat = st.sidebar.number_input("Target Latitude", value=51.1789, format="%.4f")
+    user_lon = st.sidebar.number_input("Target Longitude", value=-1.8262, format="%.4f")
+    target_name = st.sidebar.text_input("Location Name Label", value="Stonehenge Celestial Shift")
     user_imprint = st.sidebar.slider("Assigned Historical Imprint Weight", 1.0, 10.0, 7.5)
+    tectonic_strain = st.sidebar.slider("Localized Tectonic Strain Multiplier", 1.0, 3.0, 1.1, help="Simulates nearby quartz fault lines releasing piezo-electric voltage under stress.")
 else:
-    # Anchor to the baseline ranch coordinates
     user_lat, user_lon, target_name, user_imprint = 40.2592, -109.8885, "Skinwalker Ranch", 9.5
+    tectonic_strain = 2.4  # High constant value matching the Uintah Basin's geological profile
 
-# Fetch localized metrics based on coordinates
 local_weather = get_localized_weather(user_lat, user_lon)
 
 st.sidebar.header("⚡ Local Field Fluctuations")
@@ -86,13 +99,13 @@ gps_error_meters = st.sidebar.slider("GPS Deflection Matrix (Meters)", 0.0, 50.0
 seismic_hz = st.sidebar.slider("Micro-Seismic Resonance (Hz)", 0.0, 100.0, default_seismic)
 radar_void_density = st.sidebar.slider("Stratum Void Density (S-Band)", 1.0, 10.0, default_void)
 
-# --- THE GEOGRAPHIC COMPILATION ---
+# --- NODES & CALCULATIONS ---
 @st.cache_data
 def load_base_nodes(mode_select, lat, lon, name, imprint):
     if mode_select == "Universal Coordinate Pivot":
         return pd.DataFrame({
             "Location": [name], "Latitude": [lat], "Longitude": [lon], "Historical_Imprint": [imprint],
-            "Description": ["Universal template coordinates active. Running field calculations using local weather and space variables."]
+            "Description": ["Universal template coordinates active."]
         })
     else:
         return pd.DataFrame({
@@ -100,23 +113,24 @@ def load_base_nodes(mode_select, lat, lon, name, imprint):
             "Latitude": [40.2589, 40.2595, 40.2612, 40.2575],
             "Longitude": [-109.8892, -109.8920, -109.8850, -109.8955],
             "Historical_Imprint": [9.8, 8.5, 9.2, 6.5],
-            "Description": ["Epicenter of 1.6 GHz bursts.", "Site of extreme battery drain vectors.", "Location of subsurface radar reflectivity.", "Baseline structural imprint matrix."]
+            "Description": ["Epicenter nodes.", "Battery drain vectors.", "Subsurface radar reflectivity.", "Baseline structural metrics."]
         })
 
 df_nodes = load_base_nodes(mode, user_lat, user_lon, target_name, user_imprint)
 
-# --- SYSTEM CALCULATION ENGINE ---
 processed_nodes = []
 for idx, row in df_nodes.iterrows():
     rf_delta = max(0, (rf_signal_16 + 100) * 0.5)
     gps_delta = gps_error_meters * 0.7
-    subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3)
     
-    # Unified field calculation integrating celestial and automated atmospheric variables
-    total_catalyst = rf_delta + gps_delta + subsurface_catalyst + (live_kp * 0.8)
+    # Structural equations integrated with fault-line multipliers and lunar tidal scales
+    subsurface_catalyst = (seismic_hz * 0.1) * (radar_void_density * 1.3) * tectonic_strain
+    celestial_catalyst = (live_kp * 0.8) * lunar_grav
+    
+    total_catalyst = rf_delta + gps_delta + subsurface_catalyst + celestial_catalyst
     total_resonance = row["Historical_Imprint"] * total_catalyst
     
-    # Sigmoid probability curve
+    # Sigmoid function for field threshold processing
     prob_manifestation = 1 / (1 + np.exp(-0.11 * (total_resonance - 25)))
     
     if prob_manifestation > 0.90:
@@ -134,17 +148,21 @@ for idx, row in df_nodes.iterrows():
 
 df_results = pd.DataFrame(processed_nodes)
 
-# --- USER INTERFACE DISPLAY ---
+# --- USER INTERFACE LAYOUT ---
 col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("📊 Spatial Energy Grid Analytics")
-    st.markdown(f"**Tracking Target Matrix:** `{target_name}`")
-    st.sidebar.metric(label="Live Target Ambient Temp", value=f"{local_weather['temp_f']} °F")
-    st.sidebar.metric(label="Live NOAA Solar Kp-Index", value=f"{live_kp} / 9.0")
+    st.markdown(f"**Active Tracker Matrix:** `{target_name}`")
+    
+    # Displaying our advanced cosmic and localized weather metrics
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Live Solar Kp-Index", f"{live_kp} / 9.0")
+    m2.metric("Lunar Illumination", f"{lunar_illumi}%")
+    m3.metric("Lunar Tidal Factor", f"{lunar_grav}x")
     
     st.dataframe(df_results[["Location", "Imprint Value", "Resonance Output", "Anomalous Probability", "Field State"]], use_container_width=True)
-    st.success("🔬 **Unified Field Matrix Status:** Rules are executing uniformly across target spatial coordinates. Local weather feeds and celestial parameters successfully injected.")
+    st.success("🔬 **Unified Model Execution:** Celestial lunar ephemeris and fault-line stress variables successfully incorporated into the active system state.")
 
 with col2:
     st.subheader("🗺️ Unified Tracking Overlay Map")
@@ -159,4 +177,3 @@ with col2:
         ).add_to(m)
         
     st_folium(m, width="100%", height=420, returned_objects=[])
-
